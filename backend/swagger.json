@@ -1,0 +1,1756 @@
+{
+	"basePath": "/api",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"IUser": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"role": {
+					"type": "number",
+					"format": "double"
+				},
+				"name": {
+					"type": "string"
+				},
+				"surname": {
+					"type": "string"
+				},
+				"patronymic": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"email",
+				"role",
+				"name",
+				"surname",
+				"password"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"AuthCred": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"email",
+				"password"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IUserExport": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"role": {
+					"type": "number",
+					"format": "double"
+				},
+				"name": {
+					"type": "string"
+				},
+				"surname": {
+					"type": "string"
+				},
+				"patronymic": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"email",
+				"role",
+				"name",
+				"surname"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IClaimsType": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name_claim": {
+					"type": "string"
+				},
+				"caption_claim": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name_claim",
+				"caption_claim"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIClaimsType": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IClaimsType"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIClaimsTypeArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/IClaimsType"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IState": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name_state": {
+					"type": "string"
+				},
+				"caption_state": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name_state",
+				"caption_state"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIState": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IState"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIStateArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/IState"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IPriority": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name_priority": {
+					"type": "string"
+				},
+				"caption_priority": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name_priority",
+				"caption_priority"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIPriority": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IPriority"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIPriorityArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/IPriority"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IClaims": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"create_date": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"text": {
+					"type": "string"
+				},
+				"time_according_sla": {
+					"type": "number",
+					"format": "double"
+				},
+				"place_of_service": {
+					"type": "string"
+				},
+				"date_time_edit_state": {
+					"type": "string"
+				},
+				"date_time_close_claim": {
+					"type": "string"
+				},
+				"comment": {
+					"type": "string"
+				},
+				"state_of_claims": {
+					"$ref": "#/definitions/IState"
+				},
+				"claim_type": {
+					"$ref": "#/definitions/IClaimsType"
+				},
+				"executor_of_claims": {
+					"$ref": "#/definitions/IUserExport"
+				},
+				"author_of_claims": {
+					"$ref": "#/definitions/IUserExport"
+				},
+				"priority_of_claims": {
+					"$ref": "#/definitions/IPriority"
+				}
+			},
+			"required": [
+				"id",
+				"create_date",
+				"type",
+				"text",
+				"time_according_sla",
+				"place_of_service",
+				"date_time_edit_state",
+				"date_time_close_claim",
+				"comment",
+				"state_of_claims",
+				"claim_type",
+				"executor_of_claims",
+				"author_of_claims",
+				"priority_of_claims"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIClaims": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IClaims"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIClaimsArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/IClaims"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IRole": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name_role": {
+					"type": "string"
+				},
+				"caption_role": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name_role",
+				"caption_role"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISla": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"time_sla": {
+					"type": "number",
+					"format": "double"
+				},
+				"name_sla": {
+					"type": "string"
+				},
+				"caption_sla": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"time_sla",
+				"name_sla",
+				"caption_sla"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerISla": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/ISla"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerISlaArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/ISla"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IHistory": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"claim": {
+					"$ref": "#/definitions/IClaims"
+				},
+				"state": {
+					"$ref": "#/definitions/IState"
+				},
+				"date_start": {
+					"type": "string"
+				},
+				"date_end": {
+					"type": "string"
+				},
+				"comment": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"claim",
+				"state",
+				"date_start",
+				"date_end",
+				"comment"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIHistory": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IHistory"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		}
+	},
+	"info": {
+		"title": "backend",
+		"version": "1.0.2",
+		"license": {
+			"name": "ISC"
+		}
+	},
+	"paths": {
+		"/user/register": {
+			"post": {
+				"operationId": "CreateUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"token": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"token"
+							],
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUser"
+						}
+					}
+				]
+			}
+		},
+		"/user/login": {
+			"post": {
+				"operationId": "LoginUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"token": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"token"
+							],
+							"type": "object"
+						}
+					}
+				},
+				"description": "login для пользователя",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/AuthCred"
+						}
+					}
+				]
+			}
+		},
+		"/user/logout": {
+			"get": {
+				"operationId": "LogoutUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {},
+							"type": "object"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/user/userInfo": {
+			"get": {
+				"operationId": "GetUserByToken",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserExport"
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "token",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/claim-type/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsType"
+						}
+					}
+				},
+				"tags": [
+					"claim-type"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsType"
+						}
+					}
+				},
+				"tags": [
+					"claim-type"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaimsType"
+						}
+					}
+				]
+			}
+		},
+		"/claim-type": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsTypeArray"
+						}
+					}
+				},
+				"tags": [
+					"claim-type"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsType"
+						}
+					}
+				},
+				"tags": [
+					"claim-type"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaimsType"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsType"
+						}
+					}
+				},
+				"tags": [
+					"claim-type"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaimsType"
+						}
+					}
+				]
+			}
+		},
+		"/state/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
+						}
+					}
+				]
+			}
+		},
+		"/state": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIStateArray"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
+						}
+					}
+				]
+			}
+		},
+		"/priority/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIPriority"
+						}
+					}
+				},
+				"tags": [
+					"priority"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIPriority"
+						}
+					}
+				},
+				"tags": [
+					"priority"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IPriority"
+						}
+					}
+				]
+			}
+		},
+		"/priority": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIPriorityArray"
+						}
+					}
+				},
+				"tags": [
+					"priority"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIPriority"
+						}
+					}
+				},
+				"tags": [
+					"priority"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IPriority"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIPriority"
+						}
+					}
+				},
+				"tags": [
+					"priority"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IPriority"
+						}
+					}
+				]
+			}
+		},
+		"/claims/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaims"
+						}
+					}
+				},
+				"tags": [
+					"claims"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaims"
+						}
+					}
+				},
+				"tags": [
+					"claims"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaims"
+						}
+					}
+				]
+			}
+		},
+		"/claims": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaimsArray"
+						}
+					}
+				},
+				"tags": [
+					"claims"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaims"
+						}
+					}
+				},
+				"tags": [
+					"claims"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaims"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIClaims"
+						}
+					}
+				},
+				"tags": [
+					"claims"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IClaims"
+						}
+					}
+				]
+			}
+		},
+		"/role/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				]
+			}
+		},
+		"/role": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IRole"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				},
+				"tags": [
+					"Role"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IRole"
+						}
+					}
+				]
+			}
+		},
+		"/sla/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerISla"
+						}
+					}
+				},
+				"tags": [
+					"sla"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerISla"
+						}
+					}
+				},
+				"tags": [
+					"sla"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISla"
+						}
+					}
+				]
+			}
+		},
+		"/sla": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerISlaArray"
+						}
+					}
+				},
+				"tags": [
+					"sla"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerISla"
+						}
+					}
+				},
+				"tags": [
+					"sla"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISla"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerISla"
+						}
+					}
+				},
+				"tags": [
+					"sla"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISla"
+						}
+					}
+				]
+			}
+		},
+		"/history/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIHistory"
+						}
+					}
+				},
+				"tags": [
+					"history"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/history/claim/{id}": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IHistory"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"history"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"api_key": {
+			"type": "apiKey",
+			"name": "token",
+			"description": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluIiwiaWQiOjgsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYyNzI5MjAyOX0.smA9a5v47rs-oG2loD1jR5Zd5RlGqmb0XN0KWjniyKo",
+			"in": "header"
+		}
+	},
+	"tags": []
+}

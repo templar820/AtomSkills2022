@@ -1,0 +1,105 @@
+@import "bootstrap.override";
+@import "fonts";
+
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+
+header {
+  .cities-input{
+    max-width: 320px;
+  }
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+.user-select-none{
+  user-select: none;
+}
+
+
+body, html{
+  background-color: $white !important;
+  overflow: hidden;
+}
+
+footer{
+  position: fixed;
+  left: 0;
+  bottom: 16px;
+  z-index: 1200;
+}
+
+
+
+.myShowMoreText{
+  * {
+    line-height: unset;
+  }
+}
+
+
+
+body {
+  margin: 0;
+  background-color: $backgroundColor;
+  #webpack-dev-server-client-overlay{
+    display: none !important;
+  }
+}
+
+
+.myList {
+  .topPanel {
+    padding-top: 20px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  svg.cardPattern {
+    transform: translateY(15px);
+  }
+
+  .myCard {
+    min-width: 300px;
+    border: 1px solid #dbdbe5;
+    overflow: hidden;
+    box-shadow: none;
+    box-sizing: border-box;
+    border-radius: 6px;
+    &:hover {
+      border-color: $violet-3;
+      background-color: $violet-1;
+    }
+  }
+
+  .subMenuIco {
+    transform: translate(-2px, 11px);
+    fill: $gray-7;
+
+    &:hover {
+      fill: $gray-10;
+    }
+  }
+}
+

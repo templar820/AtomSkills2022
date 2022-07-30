@@ -1,0 +1,17 @@
+@import "../../../styles/colors.module";
+
+.header {
+  background-color: $menuBackgroundColor;
+  height: 60px;
+  position: relative;
+  &__right {
+    margin-left: auto;
+  }
+  &__drop-down {
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: static;
+    border: none;
+  }
+}
