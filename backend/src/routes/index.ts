@@ -16,7 +16,7 @@ const router = Router();
 
 router.use(authRouter);
 router.use(roleRouter)
-// router.use(auth);
+router.use(auth);
 router.use(stream);
 router.use(claimType)
 router.use(history)

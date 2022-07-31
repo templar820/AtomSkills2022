@@ -24,7 +24,7 @@ class ClaimsService extends BaseService {
     const current = this.model.findOne({ where: { id: model.id } });
     if (current.id_state !== model.id_state) {
       await History.create({
-        id_state: model.id_state, date_start: model.create_date, date_end: model.date_time_edit_state, id_claim: model.id, comment: model.comment
+        id_state: model.id_state, date_start: model.create_date, date_end: model.date_time_edit_state, id_claim: model.id, comment: model.comment, userId: model.userId
       });
       send(current);
     }
@@ -78,7 +78,7 @@ class ClaimsService extends BaseService {
         if (!model.id_state) {
             const defaultState = await State.findOne({where: {name_state: DEFAULT_STATE.name_state}});
             model.id_state = defaultState.id;
-            await History.create({id_state: model.id_state, date_start: model.create_date, date_end: model.date_time_edit_state, id_claim: model.id, comment: model.comment});
+            await History.create({id_state: model.id_state, date_start: model.create_date, date_end: model.date_time_edit_state, id_claim: model.id, comment: model.comment, userId: model.userId});
         }
         const claim = await this.model.create(model);
         // await this.updateSla(claim.dataValues);
@@ -95,6 +95,10 @@ class ClaimsService extends BaseService {
         } catch (e) {
             console.log(e)
         }
+    }
+
+    async autoDistribution() {
+
     }
 }
 

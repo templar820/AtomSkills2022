@@ -70,6 +70,12 @@ class ClaimsController extends Controller implements ASController<IClaims>{
         const answer = this.service.delete(body as IClaims);
         return answer;
     }
+
+    @Post('/auto-distribution-claims')
+    public async autoDistribution(@Body() body): Promise<ASController<IClaims>> {
+        const answer = this.service.autoDistribution(body as IClaims);
+        return answer;
+    }
 }
 
 export default new ClaimsController();

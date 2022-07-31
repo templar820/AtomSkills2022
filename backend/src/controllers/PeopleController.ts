@@ -60,6 +60,12 @@ class PeopleController extends Controller implements ASController<IUserExport> {
       return answer;
     }
 
+    @Get('/executors')
+    public async getAllExecutors(): Promise<ASController<IUserExport>> {
+        const answer = this.service.getAllExecutors();
+        return answer;
+    }
+
     @Get('/claim-type/{id}')
     public async getAllByClaimType(id: number): Promise<ASController<UserClaimType>> {
       const answer = this.service.getAllByClaimType(id);

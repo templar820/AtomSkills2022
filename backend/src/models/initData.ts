@@ -15,7 +15,7 @@ import {CLAIM_TYPE_SLA} from "../config/claimTypeSla";
 
 export const DEFAULT_STATE = {
     name_state: 'pending_processing',
-    caption_state: 'в ожидании выполнения'
+    caption_state: 'в ожидании обработки'
 }
 
 const initData = async () => {
