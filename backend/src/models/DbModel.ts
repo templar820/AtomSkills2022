@@ -191,6 +191,7 @@ Claims.belongsTo(State, { foreignKey: 'id_state', as: 'state_of_claims', targetK
 Claims.belongsTo(Priority, { foreignKey: 'id_priority', as: 'priority_of_claims', targetKey: 'id' });
 Claims.belongsTo(ClaimsType, { foreignKey: 'id_type_claim', as: 'claim_type', targetKey: 'id' });
 
+
 // User.hasMany(Claims, {foreignKey: 'id_executor', as: 'executor_of_claims'})
 
 // Claims.hasOne(History, {foreignKey: 'id_type_claim', as: 'claims_of_history'})
@@ -198,6 +199,8 @@ History.belongsTo(Claims, { foreignKey: 'id_claim', as: 'claims_of_history', tar
 
 // State.hasMany(History, {foreignKey: 'id_state', as: 'state_of_history'});
 History.belongsTo(State, { foreignKey: 'id_state', as: 'state_of_history', targetKey: 'id' });
+
+History.belongsTo(User, { foreignKey: 'userId', as: 'user_of_history', targetKey: 'id' })
 
 ClaimsType.belongsToMany(User, {
   through: UsersClaimsType,

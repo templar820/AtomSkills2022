@@ -9,6 +9,9 @@ class PeopleService extends BaseService {
     async getAll() {
         return await this.model.findAll({include: [{model: UserRole, as: 'role'}]});
     }
+    async getAllExecutors() {
+        return await this.model.findAll({where: {id_role_user: 2}, include: [{model: UserRole, as: 'role'}]});
+    }
     async getAllByRole(id) {
         return await this.model.findAll({where: {id_role_user: id}});
     }

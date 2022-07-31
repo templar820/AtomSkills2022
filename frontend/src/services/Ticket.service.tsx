@@ -31,8 +31,8 @@ export default class TicketService {
   async getTicketById(id: number) {
     return (await this.apiService.claims.getOne(id)).data.data as IClaims;
   }
-  
-  
+
+
   async getHistoryClaimById(id: number) {
     return (await this.apiService.history.getAll(id)).data.data as IHistory;
   }
@@ -42,7 +42,7 @@ export default class TicketService {
       const data = ticket;
       data.id_type_claim = ticket.ticket_types;
 
-      const claim = (await this.apiService.claims.create({ ...data, id_autor: ticket.id_autor || RootStore.UserStore.user.id })).data.data;
+      const claim = (await this.apiService.claims.create({ ...data, id_autor: ticket.id_autor || RootStore.UserStore.user.id, userId: RootStore.UserStore.user.id })).data.data;
       const response = await this.getTicketById(claim.id);
       await this.getTicketList();
       NotificationManager.Success.open({
@@ -143,7 +143,7 @@ export default class TicketService {
       NotificationManager.Snack.open({ snacktype: SnackType.Error, message: `Ошибка авторизации: ${err.error.message}` });
     }
   }
-  
+
   async updateClaimTypes(body: {userId: string, claimTypeIds: string[]}) {
     try {
       const list = (await this.apiService.people.createClaimsRelations(body)).data.data;
@@ -155,7 +155,7 @@ export default class TicketService {
       NotificationManager.Snack.open({ snacktype: SnackType.Error, message: `Ошибка авторизации: ${err.error.message}` });
     }
   }
-  
+
   async updateUser(user: {id: string}) {
     try {
       const list = (await this.apiService.people.update(user)).data.data;
@@ -167,7 +167,7 @@ export default class TicketService {
       NotificationManager.Snack.open({ snacktype: SnackType.Error, message: `Ошибка авторизации: ${err.error.message}` });
     }
   }
-  
+
   async sendMail(body: ISendMail){
     try {
       const list = (await this.apiService.people.sendMail(body)).data.data;

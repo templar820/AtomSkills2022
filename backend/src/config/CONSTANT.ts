@@ -16,5 +16,5 @@ export default {
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
   REST_SERVICE: process.env.REST_SERVICE,
   REST_TOKEN: process.env.REST_TOKEN,
-  COMPANY_EMAIL: process.env.COMPANY_EMAIL
+  COMPANY_EMAIL: process.env.COMPANY_EMAIL || "example@mail.com"
 };
