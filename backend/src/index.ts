@@ -64,9 +64,9 @@ app.use((req, res) => {
   res.json({ error: 'notFound' });
 });
 
-Promise.all([db.authenticate(), db.sync({ force: true })]).then(async() => {
+Promise.all([db.authenticate(), db.sync({force: true})]).then(async() => {
   console.log('DB CONNECT');
-  await readRest();
+  // await readRest();
   await require('../db-scripts/init')();
   await initData();
   if (process.env.NODE_ENV === 'development') {

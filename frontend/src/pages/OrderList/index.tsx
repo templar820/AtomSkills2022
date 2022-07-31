@@ -50,7 +50,7 @@ const OrderList = (props: MOBXDefaultProps) => {
         size: 30,
       },
       {
-        accessorFn: row => row.create_date,
+        accessorFn: row => row.create_date || row.createdAt,
         header: 'Время заявки',
         footer: props => props.column.id,
       },

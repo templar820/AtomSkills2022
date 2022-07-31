@@ -90,6 +90,8 @@ function OrdersDialog({
     );
   }
 
+  console.log(executorList);
+
   if (dialogType === 'executor') {
     return (
       <CommonDialog
@@ -101,7 +103,7 @@ function OrdersDialog({
           body: <div>
             <MyAutoComplete
               required
-              options={executorList.map((e) => ({ name: `${e.surname || ''} ${e.email}`, value: e.id }))}
+              options={executorList.map((e) => ({ name: `${e.surname || ''} ${e.email}`, value: e.userId }))}
               onChange={(e) => setDialogState({ ...dialogState, executor: e })}
               label="Исполнитель"
               value={dialogType.executor}
@@ -114,6 +116,12 @@ function OrdersDialog({
         }}
         onSubmit={async () => {
           const pending = rest.TicketStore.stateList.find(s => s.name_state === 'pending_execution');
+          console.log({
+            id: order.id,
+            id_executor: dialogState.executor.userId,
+            id_state: pending.id,
+          })
+          // return;
           await rest.services.ticketService.updateTicket({
             id: order.id,
             id_executor: dialogState.executor.value,
@@ -162,10 +170,12 @@ function OrdersDialog({
           });
   
           const pending_clarification = rest.TicketStore.stateList.find(s => s.name_state === 'pending_clarification');
+          console.log(pending_clarification);
           await rest.services.ticketService.updateTicket({
             id: order.id,
             id_state: pending_clarification.id,
           });
+          await rest.services.ticketService.getTicketList();
 
           setDialogType(null);
         }}
