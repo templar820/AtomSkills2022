@@ -4,84 +4,6 @@
 		"application/json"
 	],
 	"definitions": {
-		"IUser": {
-			"properties": {
-				"email": {
-					"type": "string"
-				},
-				"role": {
-					"type": "number",
-					"format": "double"
-				},
-				"name": {
-					"type": "string"
-				},
-				"surname": {
-					"type": "string"
-				},
-				"patronymic": {
-					"type": "string",
-					"x-nullable": true
-				},
-				"password": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"email",
-				"role",
-				"name",
-				"surname",
-				"password"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"AuthCred": {
-			"properties": {
-				"email": {
-					"type": "string"
-				},
-				"password": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"email",
-				"password"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
-		"IUserExport": {
-			"properties": {
-				"email": {
-					"type": "string"
-				},
-				"role": {
-					"type": "number",
-					"format": "double"
-				},
-				"name": {
-					"type": "string"
-				},
-				"surname": {
-					"type": "string"
-				},
-				"patronymic": {
-					"type": "string",
-					"x-nullable": true
-				}
-			},
-			"required": [
-				"email",
-				"role",
-				"name",
-				"surname"
-			],
-			"type": "object",
-			"additionalProperties": false
-		},
 		"IClaimsType": {
 			"properties": {
 				"id": {
@@ -161,81 +83,80 @@
 			"type": "object",
 			"additionalProperties": false
 		},
-		"IState": {
+		"IUser": {
 			"properties": {
-				"id": {
+				"email": {
 					"type": "string"
 				},
-				"name_state": {
+				"role": {
+					"type": "number",
+					"format": "double"
+				},
+				"name": {
 					"type": "string"
 				},
-				"caption_state": {
+				"surname": {
+					"type": "string"
+				},
+				"patronymic": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"password": {
 					"type": "string"
 				}
 			},
 			"required": [
-				"id",
-				"name_state",
-				"caption_state"
+				"email",
+				"role",
+				"name",
+				"surname",
+				"password"
 			],
 			"type": "object",
 			"additionalProperties": false
 		},
-		"ASControllerIState": {
+		"AuthCred": {
 			"properties": {
-				"statusCode": {
-					"type": "number",
-					"format": "double"
-				},
-				"isError": {
-					"type": "boolean"
-				},
-				"message": {
+				"email": {
 					"type": "string"
 				},
-				"data": {
-					"items": {
-						"$ref": "#/definitions/IState"
-					},
-					"type": "array"
+				"password": {
+					"type": "string"
 				}
 			},
 			"required": [
-				"statusCode",
-				"isError",
-				"message",
-				"data"
+				"email",
+				"password"
 			],
 			"type": "object",
 			"additionalProperties": false
 		},
-		"ASControllerIStateArray": {
+		"IUserExport": {
 			"properties": {
-				"statusCode": {
+				"email": {
+					"type": "string"
+				},
+				"role": {
 					"type": "number",
 					"format": "double"
 				},
-				"isError": {
-					"type": "boolean"
-				},
-				"message": {
+				"name": {
 					"type": "string"
 				},
-				"data": {
-					"items": {
-						"items": {
-							"$ref": "#/definitions/IState"
-						},
-						"type": "array"
-					},
-					"type": "array"
+				"surname": {
+					"type": "string"
+				},
+				"patronymic": {
+					"type": "string",
+					"x-nullable": true
 				}
 			},
 			"required": [
-				"statusCode",
-				"isError",
-				"message",
-				"data"
+				"email",
+				"role",
+				"name",
+				"surname"
 			],
 			"type": "object",
 			"additionalProperties": false
@@ -304,6 +225,85 @@
 					"items": {
 						"items": {
 							"$ref": "#/definitions/IPriority"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"IState": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name_state": {
+					"type": "string"
+				},
+				"caption_state": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name_state",
+				"caption_state"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIState": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IState"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerIStateArray": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/IState"
 						},
 						"type": "array"
 					},
@@ -606,6 +606,191 @@
 			],
 			"type": "object",
 			"additionalProperties": false
+		},
+		"ASControllerIUserExport": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/IUserExport"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllervoid": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ISendMail": {
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"userId": {
+					"type": "string"
+				},
+				"text": {
+					"type": "string"
+				},
+				"subject": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"email",
+				"userId",
+				"text",
+				"subject"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"UserClaimType": {
+			"properties": {
+				"id": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"userId": {
+					"type": "number",
+					"format": "double"
+				},
+				"name": {
+					"type": "string"
+				},
+				"surname": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"userId",
+				"name",
+				"surname",
+				"email"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerUserClaimType": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/UserClaimType"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"UserClaimRelation": {
+			"properties": {
+				"userId": {
+					"type": "number",
+					"format": "double"
+				},
+				"claimTypeIds": {
+					"items": {
+						"type": "number",
+						"format": "double"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"userId",
+				"claimTypeIds"
+			],
+			"type": "object",
+			"additionalProperties": false
+		},
+		"ASControllerUserClaimRelation": {
+			"properties": {
+				"statusCode": {
+					"type": "number",
+					"format": "double"
+				},
+				"isError": {
+					"type": "boolean"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/UserClaimRelation"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"statusCode",
+				"isError",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": false
 		}
 	},
 	"info": {
@@ -616,133 +801,6 @@
 		}
 	},
 	"paths": {
-		"/user/register": {
-			"post": {
-				"operationId": "CreateUser",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"properties": {
-								"token": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"token"
-							],
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"User"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "body",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/IUser"
-						}
-					}
-				]
-			}
-		},
-		"/user/login": {
-			"post": {
-				"operationId": "LoginUser",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"properties": {
-								"token": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"token"
-							],
-							"type": "object"
-						}
-					}
-				},
-				"description": "login для пользователя",
-				"tags": [
-					"User"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "body",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/AuthCred"
-						}
-					}
-				]
-			}
-		},
-		"/user/logout": {
-			"get": {
-				"operationId": "LogoutUser",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"properties": {},
-							"type": "object"
-						}
-					}
-				},
-				"tags": [
-					"User"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/user/userInfo": {
-			"get": {
-				"operationId": "GetUserByToken",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/IUserExport"
-						}
-					}
-				},
-				"tags": [
-					"User"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "token",
-						"required": true,
-						"type": "string"
-					}
-				]
-			}
-		},
 		"/claim-type/{id}": {
 			"get": {
 				"operationId": "GetOne",
@@ -897,9 +955,9 @@
 				]
 			}
 		},
-		"/state/{id}": {
-			"get": {
-				"operationId": "GetOne",
+		"/user/register": {
+			"post": {
+				"operationId": "CreateUser",
 				"produces": [
 					"application/json"
 				],
@@ -907,87 +965,37 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ASControllerIState"
+							"properties": {
+								"token": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"token"
+							],
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
-					"state"
+					"User"
 				],
-				"security": [
-					{
-						"api_key": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"format": "double",
-						"type": "number"
-					}
-				]
-			},
-			"delete": {
-				"operationId": "Delete",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/ASControllerIState"
-						}
-					}
-				},
-				"tags": [
-					"state"
-				],
-				"security": [
-					{
-						"api_key": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "body",
 						"name": "body",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IState"
+							"$ref": "#/definitions/IUser"
 						}
 					}
 				]
 			}
 		},
-		"/state": {
-			"get": {
-				"operationId": "GetAll",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/ASControllerIStateArray"
-						}
-					}
-				},
-				"tags": [
-					"state"
-				],
-				"security": [
-					{
-						"api_key": []
-					}
-				],
-				"parameters": []
-			},
+		"/user/login": {
 			"post": {
-				"operationId": "Create",
+				"operationId": "LoginUser",
 				"produces": [
 					"application/json"
 				],
@@ -995,31 +1003,38 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ASControllerIState"
+							"properties": {
+								"token": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"token"
+							],
+							"type": "object"
 						}
 					}
 				},
+				"description": "login для пользователя",
 				"tags": [
-					"state"
+					"User"
 				],
-				"security": [
-					{
-						"api_key": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "body",
 						"name": "body",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/IState"
+							"$ref": "#/definitions/AuthCred"
 						}
 					}
 				]
-			},
-			"patch": {
-				"operationId": "Update",
+			}
+		},
+		"/user/logout": {
+			"get": {
+				"operationId": "LogoutUser",
 				"produces": [
 					"application/json"
 				],
@@ -1027,26 +1042,70 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/ASControllerIState"
+							"properties": {},
+							"type": "object"
 						}
 					}
 				},
 				"tags": [
-					"state"
+					"User"
 				],
-				"security": [
-					{
-						"api_key": []
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/user/userInfo": {
+			"get": {
+				"operationId": "GetUserByToken",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/IUserExport"
+						}
 					}
+				},
+				"tags": [
+					"User"
 				],
+				"security": [],
 				"parameters": [
 					{
-						"in": "body",
-						"name": "body",
+						"in": "header",
+						"name": "token",
 						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/user/readCredentials": {
+			"get": {
+				"operationId": "ReadCredentials",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/IState"
+							"$ref": "#/definitions/IUserExport"
 						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "token",
+						"required": true,
+						"type": "string"
 					}
 				]
 			}
@@ -1200,6 +1259,160 @@
 						"required": true,
 						"schema": {
 							"$ref": "#/definitions/IPriority"
+						}
+					}
+				]
+			}
+		},
+		"/state/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
+						}
+					}
+				]
+			}
+		},
+		"/state": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIStateArray"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIState"
+						}
+					}
+				},
+				"tags": [
+					"state"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IState"
 						}
 					}
 				]
@@ -1735,6 +1948,332 @@
 						"required": true,
 						"format": "double",
 						"type": "number"
+					}
+				]
+			}
+		},
+		"/people/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIUserExport"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIUserExport"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUserExport"
+						}
+					}
+				]
+			}
+		},
+		"/people/sendMail": {
+			"post": {
+				"operationId": "Send_mail",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllervoid"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ISendMail"
+						}
+					}
+				]
+			}
+		},
+		"/people": {
+			"get": {
+				"operationId": "GetAll",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/IUserExport"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIUserExport"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUserExport"
+						}
+					}
+				]
+			},
+			"patch": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIUserExport"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUserExport"
+						}
+					}
+				]
+			}
+		},
+		"/people/role/{id}": {
+			"get": {
+				"operationId": "GetAllByRole",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerIUserExport"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/people/claim-type/{id}": {
+			"get": {
+				"operationId": "GetAllByClaimType",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerUserClaimType"
+						}
+					}
+				},
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/people/claims-relation/{id}": {
+			"get": {
+				"operationId": "GetClaimsRelations",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerUserClaimRelation"
+						}
+					}
+				},
+				"description": "Получение типов по userId",
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/people/claims-relation": {
+			"post": {
+				"operationId": "CreateClaimsRelations",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ASControllerUserClaimRelation"
+						}
+					}
+				},
+				"description": "Создание/обновление типов заявок поддерживаемых исполнителем",
+				"tags": [
+					"people"
+				],
+				"security": [
+					{
+						"api_key": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UserClaimRelation"
+						}
 					}
 				]
 			}

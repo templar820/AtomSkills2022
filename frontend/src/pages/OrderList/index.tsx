@@ -12,6 +12,7 @@ import './styles.scss';
 import {Roles} from "@services/Auth.service";
 import {MOBXDefaultProps} from "@globalTypes";
 import {useHistory} from "react-router";
+import CreateTicket from "@pages/OrderList/CreateTicket";
 
 
 const OrderList = (props: MOBXDefaultProps) => {
@@ -27,6 +28,8 @@ const OrderList = (props: MOBXDefaultProps) => {
     await props.services.ticketService.getPriority();
     await props.services.ticketService.getClaimTypes();
     await props.services.ticketService.getState();
+    const user = props.UserStore.roles.find((r) => r.name_role === Roles.USER);
+    await props.services.ticketService.getRoleUsers(user.id, Roles.USER);
     setIsReady(true);
   };
 
@@ -36,8 +39,7 @@ const OrderList = (props: MOBXDefaultProps) => {
 
   const filterTicketList = useMemo(() => {
     if (userRole === Roles.OPERATOR) return ticketList;
-    console.log(props.UserStore.user);
-    return ticketList.filter(t => t.executor_of_claims.id === props.UserStore.user.id);
+    return ticketList.filter(t => t.executor_of_claims?.id === props.UserStore.user?.id);
   }, [ticketList]);
 
   const columns = React.useMemo<ColumnDef<TicketModel>[]>(
@@ -53,7 +55,7 @@ const OrderList = (props: MOBXDefaultProps) => {
         footer: props => props.column.id,
       },
       {
-        accessorFn: row => row.claim_type.caption_claim,
+        accessorFn: row => row.claim_type?.caption_claim,
         header: 'Тип заявки',
         footer: props => props.column.id,
       },
@@ -68,7 +70,7 @@ const OrderList = (props: MOBXDefaultProps) => {
         footer: props => props.column.id,
       },
       {
-        accessorFn: row => row.priority_of_claims.caption_priority,
+        accessorFn: row => row.priority_of_claims?.caption_priority,
         header: 'Приоритет',
         footer: props => props.column.id,
       },
@@ -78,7 +80,7 @@ const OrderList = (props: MOBXDefaultProps) => {
         footer: props => props.column.id,
       },
       {
-        accessorFn: row => row.state_of_claims.caption_state,
+        accessorFn: row => row.state_of_claims?.caption_state,
         header: 'Статус',
         footer: props => props.column.id,
       },
@@ -103,7 +105,7 @@ const OrderList = (props: MOBXDefaultProps) => {
         footer: props => props.column.id,
       },
       {
-        accessorFn: row => `${row.executor_of_claims.name} ${row.executor_of_claims.surname}`,
+        accessorFn: row => `${row.author_of_claims?.name || ''} ${row.author_of_claims?.surname || ''}`,
         header: 'Инициатор',
         footer: props => props.column.id,
       },
@@ -117,17 +119,16 @@ const OrderList = (props: MOBXDefaultProps) => {
             userRole === Roles.OPERATOR && (
               <PopupMenu button={(<IconButton><MoreHoriz/></IconButton>)}>
                 <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('info');
+                  history.push(`/tickets/me?id=${info.row.original.id}`)
                 }} children="Информация"/>
                 <PopupMenuItem onClick={() => {
                   setDialogOrder(info.row.original);
                   setDialogType('edit');
-                }} children="Редактировать тип и приоритет"/>
+                }} displayNone={info.row.original?.state_of_claims?.name_state !== 'pending_processing'} children="Подтвердить"/>
                 <PopupMenuItem onClick={() => {
                   setDialogOrder(info.row.original);
                   setDialogType('executor');
-                }} children="Назначить исполнителя"/>
+                }} displayNone={info.row.original?.state_of_claims?.name_state !== 'in_processing'} children="Назначить исполнителя"/>
               </PopupMenu>
             )
           }
@@ -135,11 +136,11 @@ const OrderList = (props: MOBXDefaultProps) => {
             userRole === Roles.OPERATOR2 && (
               <PopupMenu button={(<IconButton><MoreHoriz/></IconButton>)}>
                 <PopupMenuItem onClick={() => {
-                  history.push(`/tickets/me?id=${info.row.original.id}`)
+                  setDialogOrder(info.row.original);
+                  setDialogType('info');
                 }} children="Информация"/>
                 <PopupMenuItem onClick={async () => {
                   const inWork = props.TicketStore.stateList.find(s => s.name_state === 'in_work');
-                  console.log(props.TicketStore.stateList, inWork)
                   await props.services.ticketService.updateTicket({
                     id: +info.row.original.id,
                     id_state: inWork.id,
@@ -149,7 +150,7 @@ const OrderList = (props: MOBXDefaultProps) => {
                     message: 'Заявка принята',
                     snacktype: SnackType.Success,
                   });
-                }} children="Принять"/>
+                }} displayNone={info.row.original?.state_of_claims?.name_state !== 'pending_execution' && info.row.original?.state_of_claims?.name_state !== 'pending_clarification'} children="Принять"/>
                 <PopupMenuItem onClick={async () => {
                   const performed = props.TicketStore.stateList.find(s => s.name_state === 'performed');
                   await props.services.ticketService.updateTicket({
@@ -161,22 +162,14 @@ const OrderList = (props: MOBXDefaultProps) => {
                     message: 'Заявка выполнена',
                     snacktype: SnackType.Success,
                   });
-                }} children="Выполнено"/>
+                }} displayNone={info.row.original?.state_of_claims?.name_state !== 'in_work'} children="Выполнено"/>
                 <PopupMenuItem onClick={() => {
                   setDialogOrder(info.row.original);
                   setDialogType('clarify');
-                }} children="Уточнить"/>
+                }} displayNone={info.row.original?.state_of_claims?.name_state !== 'in_work'} children="Уточнить"/>
                 <PopupMenuItem variant="red" onClick={async () => {
-                  const rejected = props.TicketStore.stateList.find(s => s.name_state === 'rejected');
-                  await props.services.ticketService.updateTicket({
-                    id: info.row.original.id,
-                    id_state: rejected.id,
-                  });
-                  await props.services.ticketService.getTicketList();
-                  NotificationManager.Snack.open({
-                    message: 'Заявка отклонена',
-                    snacktype: SnackType.Success,
-                  });
+                  setDialogOrder(info.row.original);
+                  setDialogType('rejected');
                 }} children="Отклонить"/>
               </PopupMenu>
             )
@@ -189,6 +182,9 @@ const OrderList = (props: MOBXDefaultProps) => {
 
   return (
     <div className="order-list">
+      {
+        userRole === Roles.OPERATOR && <CreateTicket/>
+      }
       <TableAs columns={columns} data={filterTicketList} />
       <OrdersDialog dialogType={dialogType} setDialogType={setDialogType} order={dialogOrder}/>
     </div>

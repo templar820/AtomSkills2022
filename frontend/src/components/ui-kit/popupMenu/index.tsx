@@ -116,11 +116,12 @@ const PopupMenuGroup: React.FC<{ handleCloseSettingsMenu?: () => void; noDivider
 
 const PopupMenuItem: React.FC<{
   handleCloseSettingsMenu?: () => void;
+  displayNone: boolean;
   onClick?: () => void;
   variant?: 'red';
   icon?: ReactElement;
   wrapperDataset?: { [key: string]: string };
-}> = ({ handleCloseSettingsMenu, children, variant, onClick, icon, wrapperDataset }) => {
+}> = ({ handleCloseSettingsMenu, children, variant, onClick, icon, wrapperDataset, displayNone= false }) => {
   const dataset = wrapperDataset || {};
   return (
     <MenuItem
@@ -129,6 +130,7 @@ const PopupMenuItem: React.FC<{
         if (onClick) onClick();
         handleCloseSettingsMenu(e);
       }}
+      style={{display: displayNone && 'none'}}
       className={variant === 'red' ? 'popup-menu-item_red' : ''}
     >
       <div className="popup-menu__item">

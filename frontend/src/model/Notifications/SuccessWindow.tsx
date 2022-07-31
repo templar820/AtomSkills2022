@@ -53,6 +53,7 @@ export default class SuccessWindow extends BaseNotification implements BaseNotif
             color="primary"
             onClick={() => {
               this.close();
+              this.onClose && this.onClose();
             }}
           >
             {this.buttonCancelText || 'Закрыть'}

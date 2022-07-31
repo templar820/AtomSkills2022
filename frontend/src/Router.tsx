@@ -1,10 +1,10 @@
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
-import {Redirect, Route, Switch} from 'react-router';
-import WindowFactory, {WindowType} from '@components/HOC/WindowFactory';
+import { BrowserRouter } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router';
+import WindowFactory, { WindowType } from '@components/HOC/WindowFactory';
 import Page from '@components/system/Page/Page';
 import ErrorBoundary from '@components/system/ErrorBoundary';
-import {MOBXDefaultProps} from '@globalTypes';
+import { MOBXDefaultProps } from '@globalTypes';
 import MobXRouterDecorator from '@components/HOC/MobXRouterDecorator';
 import Tickets from '@pages/Tickets';
 import NotificationWindow from './NotificationWindow';
@@ -15,6 +15,7 @@ import OrderList from "@pages/OrderList";
 import Users from "@pages/Users";
 import Analytics from "@pages/Analytics";
 import TicketPage from "@pages/Ticket";
+import Documents from "@pages/Documents";
 
 function Router(props: MOBXDefaultProps) {
   const userStore = props.UserStore;
@@ -64,15 +65,14 @@ function Router(props: MOBXDefaultProps) {
               exact
               path="/tickets"
               render={p => getPage(p, Tickets)}
-            >
-            </Route>
-  
+            />
+
             <Route
               exact
               path="/tickets/me"
               render={p => getPage(p, TicketPage)}
             />
-            
+
             <Route
               exact
               path="/users"
@@ -82,6 +82,11 @@ function Router(props: MOBXDefaultProps) {
               exact
               path="/analytics"
               render={p => getPage(p, Analytics, [Roles.SERVICEMANAGER])}
+            />
+            <Route
+              exact
+              path="/docs"
+              render={p => getPage(p, Documents, [Roles.SERVICEMANAGER])}
             />
             <Route exact path="/">
               <Redirect to={mainPagePaths[userStore.user?.role]} />

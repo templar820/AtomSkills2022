@@ -10,17 +10,17 @@ function Tickets(props: MOBXDefaultProps) {
   const [dialogMode, setDialogMode] = useState<FormDialogMode>(null);
   
   
-  console.log(props.TicketStore.ticketList.executor_of_claims, props.UserStore.user.id);
   
   const ticketList = useMemo(() => {
     return props.TicketStore.ticketList.filter(t => t?.id_autor === props.UserStore.user.id);
   }, [props.TicketStore.ticketList]);
 
-  const { claimTypesList } = props.TicketStore;
+  const { claimTypesList, priorityList } = props.TicketStore;
 
   useEffect(() => {
     props.services.ticketService.getClaimTypes();
     props.services.ticketService.getTicketList();
+    props.services.ticketService.getPriority();
   }, []);
 
   const mySchema = {
@@ -30,6 +30,10 @@ function Tickets(props: MOBXDefaultProps) {
       ticket_types: {
         type: 'string',
         title: 'Тип заявки',
+      },
+      id_priority: {
+        type: 'number',
+        title: 'Приоритет',
       },
       text: {
         title: 'Текст заявки',
@@ -61,7 +65,8 @@ function Tickets(props: MOBXDefaultProps) {
         close={() => setDialogMode(null)}
         schema={mySchema}
         autocompletes={{
-          ticket_types: { options: claimTypesList.map(el => ({ name: el.caption_claim, value: String(el.id) })) }
+          ticket_types: { options: claimTypesList.map(el => ({ name: el.caption_claim, value: String(el.id) })) },
+          id_priority: {options: priorityList.map(p => ({name: p.caption_priority, value: p.id}))}
         }}
         onSave={(value) => {
           setDialogMode(null);

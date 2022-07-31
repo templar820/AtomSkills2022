@@ -1,141 +1,108 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend, ChartData, ChartOptions,
-} from 'chart.js';
-import { Bar, Pie } from 'react-chartjs-2';
+import {ToggleButton, ToggleButtonGroup, TextField} from "@mui/material";
+import MobXRouterDecorator from "@components/HOC/MobXRouterDecorator";
+import {MOBXDefaultProps} from "@globalTypes";
+import Board from "@pages/Analytics/Board";
+import Report from '@pages/Analytics/Report';
+import {Roles} from "@services/Auth.service";
 import './styles.scss';
-import {getDataSet, TimeDataSet} from "../../utils/getDataSet";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import MyAutoComplete from "@common/MyAutoComplete";
+import NotificationManager from "../../helpers/NotificationManager";
+import {SnackType} from "../../model/Notifications/PageNotification";
+import {CommonDialog} from "ui-kit";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const Analytics = (props: MOBXDefaultProps) => {
+  const [viewType, setViewType] = useState('board');
+  const [dateStart, setDateStart] = useState(null);
+  const [dateEnd, setDateEnd] = useState(null);
+  const [dialogData, setDialogData] = useState(null);
+  const [dialogState, setDialogState] = useState({});
 
-const content: TimeDataSet[] = [
-  {
-    date: new Date('2022-04-25'),
-    value: 5,
-  },
-  {
-    date: new Date('2022-04-26'),
-    value: 2,
-  },
-  {
-    date: new Date('2022-04-29'),
-    value: 4,
-  },
-  {
-    date: new Date('2022-04-29'),
-    value: 3,
-  },
-  {
-    date: new Date('2022-05-02'),
-    value: 4,
-  }
-];
-
-const Analytics = () => {
-  const [labels, setLabels] = useState([]);
-  const [dataset, setDataset] = useState([]);
-  const [period, setPeriod] = useState('day');
   useEffect(() => {
-    const [d, l] = getDataSet(content, period);
-    setLabels(l);
-    setDataset(d);
-  }, [period]);
+    if (!dialogData?.ticket?.claim_type?.id) return;
+    props.services.ticketService.getUsersClaimType(dialogData?.ticket?.claim_type?.id);
+  }, [dialogData]);
+  const executorList = props.TicketStore.usersClaimType;
 
-  const options: ChartOptions<"bar"> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Bar Chart',
-      },
-    },
-  };
-
-  const data: ChartData<"bar", number[], string> = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset',
-        data: dataset,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }
-    ],
-  };
-
-  const data2: ChartData<"pie", number[], string> = {
-    labels: ['Red', 'Blue', 'Yellow'],
-    datasets: [
-      {
-        label: 'Dataset',
-        data: [12, 19, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+    props.services.ticketService.getTicketList();
+    props.services.ticketService.getState();
+    const executor = props.UserStore.roles.find((r) => r.name_role === Roles.OPERATOR2);
+    props.services.ticketService.getRoleUsers(executor.id, Roles.OPERATOR2);
+  }, []);
 
   return (<div>
-    <FormControl style={{width: '130px'}}>
-      <InputLabel id="demo-controlled-open-select-label">Период</InputLabel>
-      <Select
-        labelId="demo-controlled-open-select-label"
-        id="demo-controlled-open-select"
-        value={period}
-        onChange={(e) => setPeriod(e.target.value)}
+    <div className="d-flex align-items-end mb-5">
+      <ToggleButtonGroup
+        color="primary"
+        value={viewType}
+        exclusive
+        onChange={(e, newType) => setViewType(newType)}
+        className="me-3"
+
       >
-        <MenuItem value={'day'}>День</MenuItem>
-        <MenuItem value={'month'}>Месяц</MenuItem>
-        <MenuItem value={'year'}>Год</MenuItem>
-      </Select>
-    </FormControl>
-    <div className="charts">
-      <div className="chart1">
-        <Bar options={options} data={data} />
-      </div>
-      <div className="chart2">
-        <Pie data={data2} options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top' as const,
-            },
-            title: {
-              display: true,
-              text: 'Pie Chart',
-            },
-          }
-        }}/>
-      </div>
+        <ToggleButton value="board">Доска</ToggleButton>
+        <ToggleButton value="report">Отчет</ToggleButton>
+      </ToggleButtonGroup>
+      <TextField
+        type="date"
+        label="Начало периода"
+        value={dateStart}
+        onChange={e => setDateStart(e.currentTarget.value)}
+        className="me-3"
+      />
+      <TextField
+        type="date"
+        label="Конец периода"
+        value={dateEnd}
+        onChange={e => setDateEnd(e.currentTarget.value)}
+        className="me-3"
+      />
     </div>
+    {
+      viewType === 'board' && (<Board dateStart={dateStart} dateEnd={dateEnd} setDialogData={setDialogData}/>)
+    }
+    {
+      viewType === 'report' && (<Report dateStart={dateStart} dateEnd={dateEnd} setDialogData={setDialogData}/>)
+    }
+    <CommonDialog
+      isOpen={!!dialogData}
+      onChange={() => {
+        setDialogData(null);
+        setDialogState({});
+      }}
+      width={500}
+      cfg={{
+        title: "Назначить исполнителя",
+        body: <div>
+          <MyAutoComplete
+            required={true}
+            options={executorList.map((e) => ({name: `${e.surname || ''} ${e.email}`, value: e.id}))}
+            onChange={(e) => setDialogState({...dialogState, executor: e})}
+            label={"Исполнитель"}
+            value={dialogState.executor || {name: `${dialogData?.ticket?.executor_of_claims?.surname || ''} ${dialogData?.ticket?.executor_of_claims?.email}`, value: dialogData?.ticket?.executor_of_claims?.id}}
+          />
+        </div>,
+        buttons: {
+          cancel: true,
+          continue: true,
+        }
+      }}
+      onSubmit={async () => {
+        await props.services.ticketService.updateTicket({
+          id: dialogData.ticket.id,
+          id_executor: dialogState.executor.value,
+        });
+        await props.services.ticketService.getTicketList();
+        NotificationManager.Snack.open({
+          message: 'Исполнитель изменен',
+          snacktype: SnackType.Success,
+        });
+        setDialogData(null);
+        setDialogState({});
+      }}
+    />
   </div>);
 };
 
-export default Analytics;
+export default MobXRouterDecorator(Analytics)

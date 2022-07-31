@@ -9,6 +9,28 @@
  * ---------------------------------------------------------------
  */
 
+export interface IClaimsType {
+  id: string;
+  name_claim: string;
+  caption_claim: string;
+}
+
+export interface ASControllerIClaimsType {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IClaimsType[];
+}
+
+export interface ASControllerIClaimsTypeArray {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IClaimsType[][];
+}
+
 export interface IUser {
   email: string;
 
@@ -35,27 +57,27 @@ export interface IUserExport {
   patronymic?: string | null;
 }
 
-export type ASControllerIClaimsType = object;
-
-export interface IClaimsType {
-  id: string;
-  name_claim: string;
-  caption_claim: string;
-}
-
-export type ASControllerIState = object;
-
-export type ASControllerIStateArray = object;
-
 export interface IState {
   id: string;
   name_state: string;
   caption_state: string;
 }
 
-export type ASControllerIPriority = object;
+export interface ASControllerIState {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IState[];
+}
 
-export type ASControllerIPriorityArray = object;
+export interface ASControllerIStateArray {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IState[][];
+}
 
 export interface IPriority {
   id: string;
@@ -63,7 +85,21 @@ export interface IPriority {
   caption_priority: string;
 }
 
-export type ASControllerIClaims = object;
+export interface ASControllerIPriority {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IPriority[];
+}
+
+export interface ASControllerIPriorityArray {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IPriority[][];
+}
 
 export interface IClaims {
   id: string;
@@ -84,15 +120,27 @@ export interface IClaims {
   priority_of_claims: IPriority;
 }
 
+export interface ASControllerIClaims {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IClaims[];
+}
+
+export interface ASControllerIClaimsArray {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IClaims[][];
+}
+
 export interface IRole {
   id: string;
   name_role: string;
   caption_role: string;
 }
-
-export type ASControllerISla = object;
-
-export type ASControllerISlaArray = object;
 
 export interface ISla {
   id: string;
@@ -101,6 +149,94 @@ export interface ISla {
   time_sla: number;
   name_sla: string;
   caption_sla: string;
+}
+
+export interface ASControllerISla {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: ISla[];
+}
+
+export interface ASControllerISlaArray {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: ISla[][];
+}
+
+export interface IHistory {
+  id: string;
+  claim: IClaims;
+  state: IState;
+  date_start: string;
+  date_end: string;
+  comment: string;
+}
+
+export interface ASControllerIHistory {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IHistory[];
+}
+
+export interface ASControllerIUserExport {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: IUserExport[];
+}
+
+export interface ASControllervoid {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: any[];
+}
+
+export interface ISendMail {
+  email: string;
+  text: string;
+  subject: string;
+}
+
+export interface UserClaimType {
+  /** @format double */
+  id?: number | null;
+
+  /** @format double */
+  userId: number;
+  name: string;
+  surname: string;
+  email: string;
+}
+
+export interface ASControllerUserClaimType {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: UserClaimType[];
+}
+
+export interface UserClaimRelation {
+  /** @format double */
+  userId: number;
+  claimTypeIds: number[];
+}
+
+export interface ASControllerUserClaimRelation {
+  /** @format double */
+  statusCode: number;
+  isError: boolean;
+  message: string;
+  data: UserClaimRelation[];
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -324,75 +460,6 @@ export class Api<SecurityDataType extends unknown> {
     this.http = http;
   }
 
-  user = {
-    /**
-     * No description
-     *
-     * @tags User
-     * @name CreateUser
-     * @request POST:/user/register
-     * @response `200` `{ token: string }` Ok
-     */
-    createUser: (body: IUser, params: RequestParams = {}) =>
-      this.http.request<{ token: string }, any>({
-        path: `/user/register`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description login для пользователя
-     *
-     * @tags User
-     * @name LoginUser
-     * @request POST:/user/login
-     * @response `200` `{ token: string }` Ok
-     */
-    loginUser: (body: AuthCred, params: RequestParams = {}) =>
-      this.http.request<{ token: string }, any>({
-        path: `/user/login`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags User
-     * @name LogoutUser
-     * @request GET:/user/logout
-     * @response `200` `ASControllerIClaimsType` Ok
-     */
-    logoutUser: (params: RequestParams = {}) =>
-      this.http.request<ASControllerIClaimsType, any>({
-        path: `/user/logout`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags User
-     * @name GetUserByToken
-     * @request GET:/user/userInfo
-     * @response `200` `IUserExport` Ok
-     */
-    getUserByToken: (params: RequestParams = {}) =>
-      this.http.request<IUserExport, any>({
-        path: `/user/userInfo`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-  };
   claimType = {
     /**
      * No description
@@ -438,10 +505,10 @@ export class Api<SecurityDataType extends unknown> {
      * @name GetAll
      * @request GET:/claim-type
      * @secure
-     * @response `200` `(IClaimsType)[]` Ok
+     * @response `200` `ASControllerIClaimsTypeArray` Ok
      */
     getAll: (params: RequestParams = {}) =>
-      this.http.request<IClaimsType[], any>({
+      this.http.request<ASControllerIClaimsTypeArray, any>({
         path: `/claim-type`,
         method: "GET",
         secure: true,
@@ -483,6 +550,91 @@ export class Api<SecurityDataType extends unknown> {
         method: "PATCH",
         body: body,
         secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  user = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name CreateUser
+     * @request POST:/user/register
+     * @response `200` `{ token: string }` Ok
+     */
+    createUser: (body: IUser, params: RequestParams = {}) =>
+      this.http.request<{ token: string }, any>({
+        path: `/user/register`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description login для пользователя
+     *
+     * @tags User
+     * @name LoginUser
+     * @request POST:/user/login
+     * @response `200` `{ token: string }` Ok
+     */
+    loginUser: (body: AuthCred, params: RequestParams = {}) =>
+      this.http.request<{ token: string }, any>({
+        path: `/user/login`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name LogoutUser
+     * @request GET:/user/logout
+     * @response `200` `object` Ok
+     */
+    logoutUser: (params: RequestParams = {}) =>
+      this.http.request<object, any>({
+        path: `/user/logout`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name GetUserByToken
+     * @request GET:/user/userInfo
+     * @response `200` `IUserExport` Ok
+     */
+    getUserByToken: (params: RequestParams = {}) =>
+      this.http.request<IUserExport, any>({
+        path: `/user/userInfo`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name ReadCredentials
+     * @request GET:/user/readCredentials
+     * @response `200` `IUserExport` Ok
+     */
+    readCredentials: (params: RequestParams = {}) =>
+      this.http.request<IUserExport, any>({
+        path: `/user/readCredentials`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -720,10 +872,10 @@ export class Api<SecurityDataType extends unknown> {
      * @name GetAll
      * @request GET:/claims
      * @secure
-     * @response `200` `(IClaims)[]` Ok
+     * @response `200` `ASControllerIClaimsArray` Ok
      */
     getAll: (params: RequestParams = {}) =>
-      this.http.request<IClaims[], any>({
+      this.http.request<ASControllerIClaimsArray, any>({
         path: `/claims`,
         method: "GET",
         secure: true,
@@ -953,6 +1105,213 @@ export class Api<SecurityDataType extends unknown> {
         method: "PATCH",
         body: body,
         secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  history = {
+    /**
+     * No description
+     *
+     * @tags history
+     * @name GetOne
+     * @request GET:/history/{id}
+     * @secure
+     * @response `200` `ASControllerIHistory` Ok
+     */
+    getOne: (id: number, params: RequestParams = {}) =>
+      this.http.request<ASControllerIHistory, any>({
+        path: `/history/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags history
+     * @name GetAll
+     * @request GET:/history/claim/{id}
+     * @secure
+     * @response `200` `(IHistory)[]` Ok
+     */
+    getAll: (id: number, params: RequestParams = {}) =>
+      this.http.request<IHistory[], any>({
+        path: `/history/claim/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  people = {
+    /**
+     * No description
+     *
+     * @tags people
+     * @name GetOne
+     * @request GET:/people/{id}
+     * @secure
+     * @response `200` `ASControllerIUserExport` Ok
+     */
+    getOne: (id: number, params: RequestParams = {}) =>
+      this.http.request<ASControllerIUserExport, any>({
+        path: `/people/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name Delete
+     * @request DELETE:/people/{id}
+     * @secure
+     * @response `200` `ASControllerIUserExport` Ok
+     */
+    delete: (id: string, body: IUserExport, params: RequestParams = {}) =>
+      this.http.request<ASControllerIUserExport, any>({
+        path: `/people/${id}`,
+        method: "DELETE",
+        body: body,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name SendMail
+     * @request POST:/people/sendMail
+     * @secure
+     * @response `200` `ASControllervoid` Ok
+     */
+    sendMail: (body: ISendMail, params: RequestParams = {}) =>
+      this.http.request<ASControllervoid, any>({
+        path: `/people/sendMail`,
+        method: "POST",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name GetAll
+     * @request GET:/people
+     * @secure
+     * @response `200` `(IUserExport)[]` Ok
+     */
+    getAll: (params: RequestParams = {}) =>
+      this.http.request<IUserExport[], any>({
+        path: `/people`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name Create
+     * @request POST:/people
+     * @secure
+     * @response `200` `ASControllerIUserExport` Ok
+     */
+    create: (body: IUserExport, params: RequestParams = {}) =>
+      this.http.request<ASControllerIUserExport, any>({
+        path: `/people`,
+        method: "POST",
+        body: body,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name Update
+     * @request PATCH:/people
+     * @secure
+     * @response `200` `ASControllerIUserExport` Ok
+     */
+    update: (body: IUserExport, params: RequestParams = {}) =>
+      this.http.request<ASControllerIUserExport, any>({
+        path: `/people`,
+        method: "PATCH",
+        body: body,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name GetAllByRole
+     * @request GET:/people/role/{id}
+     * @secure
+     * @response `200` `ASControllerIUserExport` Ok
+     */
+    getAllByRole: (id: number, params: RequestParams = {}) =>
+      this.http.request<ASControllerIUserExport, any>({
+        path: `/people/role/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags people
+     * @name GetAllByClaimType
+     * @request GET:/people/claim-type/{id}
+     * @secure
+     * @response `200` `ASControllerUserClaimType` Ok
+     */
+    getAllByClaimType: (id: number, params: RequestParams = {}) =>
+      this.http.request<ASControllerUserClaimType, any>({
+        path: `/people/claim-type/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Создание/обновление типов заявок поддерживаемых исполнителем
+     *
+     * @tags people
+     * @name CreateClaimsRelations
+     * @request POST:/people/claims-relation
+     * @secure
+     * @response `200` `ASControllerUserClaimRelation` Ok
+     */
+    createClaimsRelations: (body: UserClaimRelation, params: RequestParams = {}) =>
+      this.http.request<ASControllerUserClaimRelation, any>({
+        path: `/people/claims-relation`,
+        method: "POST",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

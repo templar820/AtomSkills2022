@@ -1,98 +1,113 @@
-import React, {useState} from 'react';
-import {Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField} from "ui-kit";
-import MobXRouterDecorator from "@components/HOC/MobXRouterDecorator";
-import {MOBXDefaultProps} from "@globalTypes";
-import {Roles} from "@services/Auth.service";
+import React, { useState } from 'react';
+import {
+  Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField
+} from 'ui-kit';
+import MobXRouterDecorator from '@components/HOC/MobXRouterDecorator';
+import { MOBXDefaultProps } from '@globalTypes';
+import { Roles } from '@services/Auth.service';
+import Form from '@common/Form';
 
 const useStyles = makeStyles((theme) => ({
   input: {
-    width: "100%",
+    width: '100%',
     marginBottom: '12px !important',
   }
 }));
 
-const AuthorizationCard = (props: MOBXDefaultProps) => {
-  const [loginValue, setLoginValue] = useState('');
-  const [cardState, setCardState] = useState<'authorization' | 'registration'>('authorization')
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState<Roles>();
+function AuthorizationCard(props: MOBXDefaultProps) {
+  const [cardState, setCardState] = useState<'authorization' | 'registration'>('authorization');
   const userStore = props.UserStore;
   const classes = useStyles();
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  
+  const onSubmit = async (formData) => {
     if (cardState === 'authorization') {
-      await props.services.authService.login(loginValue, password);
+      await props.services.authService.login(formData);
       await props.services.authService.authentication();
     } else {
-      await props.services.authService.register(loginValue, password, role);
+      await props.services.authService.register(formData);
       await props.services.authService.authentication();
     }
-  }
-
+  };
+  
   const changeView = (e) => {
     e.preventDefault();
-    setPassword('');
-    setLoginValue('');
-    setRole('');
-    setCardState(cardState === 'authorization' ? 'registration': 'authorization')
+    setCardState(cardState === 'authorization' ? 'registration' : 'authorization');
   };
-
+  
+  const loginSchema = {
+    type: 'object',
+    required: ['login', 'password'],
+    properties: {
+      login: {
+        title: 'Логин',
+        type: 'string',
+      },
+      password: {
+        title: 'Пароль',
+        type: 'string',
+        format: 'password',
+      },
+    }
+  };
+  
+  const authSchema = {
+    type: 'object',
+    required: ['role', 'password'],
+    properties: {
+      name: {
+        type: 'string',
+        title: 'Имя',
+      },
+      surname: {
+        title: 'Фамилия',
+        type: 'string',
+      },
+      patronymic: {
+        type: 'string',
+        title: 'Отчество'
+      },
+      login: {
+        type: 'string',
+        title: 'Логин'
+      },
+      password: {
+        type: 'string',
+        format: 'password',
+        title: 'Пароль'
+      },
+      role: {
+        type: 'string',
+        title: 'Роль'
+      },
+    }
+  };
+  
   return (
     <>
-      <h4 className="text-center mb-4">{cardState === 'authorization' ? "Авторизация" : "Регистрация"}</h4>
-      <form
-        onSubmit={(e) => onSubmit(e)}
+      <h4 className="text-center mb-4">{cardState === 'authorization' ? 'Авторизация' : 'Регистрация'}</h4>
+      <Form
+        schema={cardState === 'authorization' ? loginSchema : authSchema}
+        autocompletes={{
+          role: { options: userStore.roles.map(el => ({ name: el.caption_role, value: String(el.id) })) }
+        }}
+        onSave={(value) => {
+          console.log(value);
+        }}
+        onSubmit={(v) => {
+          onSubmit(v.formData)
+        }}
       >
-        <TextField
-          className={classes.input}
-          label="Логин"
-          variant="outlined"
-          size="small"
-          value={loginValue}
-          onChange={(e) => setLoginValue(e.target.value)}
-          required
-          // InputLabelProps={{ required: false }}
-        />
-        <TextField
-          className={classes.input}
-          label="Пароль"
-          variant="outlined"
-          size="small"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          // InputLabelProps={{ required: false }}
-          type="password"
-        />
-        {
-          cardState === 'registration' && (
-            <FormControl className={classes.input} variant="outlined">
-              <InputLabel id="demo-controlled-open-select-label">Роль</InputLabel>
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                required
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                {
-                  userStore.roles.map(role => (<MenuItem value={role.id}>{role.caption_role}</MenuItem>))
-                }
-              </Select>
-            </FormControl>)
-        }
         <div className="d-flex justify-content-between align-items-center mt-3">
           <Button variant="contained" type="submit">
-            {cardState === 'authorization' ? "Войти" : "Зарегистрироваться"}
+            {cardState === 'authorization' ? 'Войти' : 'Зарегистрироваться'}
           </Button>
           <button className="btn btn-link" onClick={(e) => changeView(e)}>
-            {cardState === 'authorization' ? "Регистрация" : "Вход"}
+            {cardState === 'authorization' ? 'Регистрация' : 'Вход'}
           </button>
         </div>
-      </form>
+      </Form>
     </>
   );
-};
+}
 
 export default MobXRouterDecorator(AuthorizationCard);

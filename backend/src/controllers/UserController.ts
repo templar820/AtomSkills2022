@@ -4,7 +4,7 @@ import {
 } from 'tsoa';
 import { ServerError } from '../middleware/errorHandler';
 import UserService from '../services/UserService';
-import CONSTANT from "../config/CONSTANT";
+import CONSTANT from '../config/CONSTANT';
 import db from '../db';
 
 interface AuthCred {
@@ -29,8 +29,9 @@ export interface IUserExport {
 class UserController extends Controller {
   @Post('/register')
   public async createUser(@Body() body: IUser): Promise<{ token: string }> {
-    const { email, id } = await UserService.create(body);
-    const token = jwt.sign({ email, id }, CONSTANT.SECRET_KEY);
+    console.log(body);
+    const { login, id } = await UserService.create(body);
+    const token = jwt.sign({ login, id }, CONSTANT.SECRET_KEY);
     return { token };
   }
 
@@ -43,8 +44,6 @@ class UserController extends Controller {
 
   @Get('/logout')
   public async logoutUser() : Promise<{}> {}
-  
-  
 
   @Get('/userInfo')
   async getUserByToken(@Header('token') token: string): Promise<IUserExport> {
@@ -52,7 +51,14 @@ class UserController extends Controller {
     if (!user) throw new ServerError(404, 'User not found');
     return user;
   }
-  
+
+  @Get('/readCredentials')
+  async readCredentials(@Header('token') token: string): Promise<IUserExport> {
+    const user = await UserService.getOne(Number(token));
+    const update = await UserService.update({ id: user.id, isReadCredentials: true });
+    if (!update) throw new ServerError(404, 'User not found');
+    return update;
+  }
 }
 
 export default new UserController();

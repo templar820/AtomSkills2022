@@ -3,164 +3,48 @@ import MobXRouterDecorator from '@components/HOC/MobXRouterDecorator';
 import { MOBXDefaultProps } from '@globalTypes';
 import Form from '@common/Form';
 import { ColumnDef } from '@tanstack/react-table';
-import {
-  makeData, Person
-} from '@components/ui-kit/table/makeData';
-import { PopupMenu, PopupMenuItem } from 'ui-kit';
-import { IconButton } from '@mui/material';
-import { MoreHoriz } from '@mui/icons-material';
-import NotificationManager from '../../helpers/NotificationManager';
-import { SnackType } from '../../model/Notifications/PageNotification';
+import TicketHistoryTable from '@pages/Ticket/TicketHistoryTable';
+import UserStore from '@stores/User.store';
+import { Roles } from '@services/Auth.service';
 import { TableAs } from '../../components/ui-kit/table';
 import { IClaims } from '../../api/api';
-import TicketModel from "../../model/Ticket.model";
-import {Roles} from "@services/Auth.service";
-import OrdersDialog from "@pages/OrderList/OrdesDialog";
+import TicketModel from '../../model/Ticket.model';
 
 function TicketPage(props: MOBXDefaultProps) {
   const [claim, setClaim] = useState<IClaims>(null);
 
   const url = new URL(window.location.href);
   const id = url.searchParams.get('id');
-
+  const { role } = props.UserStore.user;
   useEffect(() => {
     props.services.ticketService.getTicketById(id).then((ticket) => {
       setClaim(ticket);
     });
-  }, []);
-  
-  const [dialogType, setDialogType] = useState(null);
-  const [dialogOrder, setDialogOrder] = useState({});
-  
-  const ticketList = props.TicketStore.ticketList;
-  const userRole = props.UserStore.user?.role;
-  
-  useEffect(() => {
-    props.services.ticketService.getTicketList();
-  }, []);
-  console.log(ticketList);
-  
-  const columns = React.useMemo<ColumnDef<TicketModel>[]>(
-    () => [
-      {
-        accessorFn: row => row.state_of_claims.caption_state,
-        header: 'Статус',
-        footer: props => props.column.id,
-      },
-      {
-        accessorKey: 'id',//
-        header: 'Исполнитель',
-        footer: props => props.column.id,
-      },
-      {
-        accessorFn: row => row.create_date,
-        header: 'Время заявки',
-        footer: props => props.column.id,
-      },
-      {
-        accessorFn: row => row.claim_type.caption_claim,
-        header: 'Тип заявки',
-        footer: props => props.column.id,
-      },
-      {
-        accessorFn: row => row.text,
-        header: 'Текст заявки',
-        footer: props => props.column.id,
-      },
-      {
-        accessorKey: 'place_of_service',
-        header: 'Место указания услуги',
-        footer: props => props.column.id,
-      },
-      {
-        accessorFn: row => row.priority_of_claims.caption_priority,
-        header: 'Приоритет',
-        footer: props => props.column.id,
-      },
-      {
-        accessorKey: 'time_according_sla',
-        header: 'Время выполнения',
-        footer: props => props.column.id,
-      },
+  }, [id]);
 
-      {
-        accessorFn: row => row.date_time_edit_state,
-        header: 'Время изменения статуса',
-        footer: props => props.column.id,
-      },
-      {
-        accessorKey: 'date_time_close_claim',
-        header: 'Время закрытия заявки',
-        footer: props => props.column.id,
-      },
-
-      {
-        accessorFn: row => `${row.executor_of_claims.name} ${row.executor_of_claims.surname}`,
-        header: 'Инициатор',
-        footer: props => props.column.id,
-      },
-      {
-        id: '1',
-        header: '',
-        enableColumnFilter: false,
-        size: 30,
-        cell: (info) => (<>
-          {
-            userRole === Roles.OPERATOR && (
-              <PopupMenu button={(<IconButton><MoreHoriz/></IconButton>)}>
-                <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('info');
-                }} children="Информация"/>
-                <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('edit');
-                }} children="Редактировать тип и приоритет"/>
-                <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('executor');
-                }} children="Назначить исполнителя"/>
-              </PopupMenu>
-            )
-          }
-          {
-            userRole === Roles.OPERATOR2 && (
-              <PopupMenu button={(<IconButton><MoreHoriz/></IconButton>)}>
-                <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('info');
-                }} children="Информация"/>
-                <PopupMenuItem onClick={() => {
-                  NotificationManager.Snack.open({
-                    message: 'Заявка принята',
-                    snacktype: SnackType.Success,
-                  });
-                }} children="Принять"/>
-                <PopupMenuItem onClick={() => {
-                  setDialogOrder(info.row.original);
-                  setDialogType('clarify');
-                }} children="Уточнить"/>
-                <PopupMenuItem variant="red" onClick={() => {
-                  NotificationManager.Snack.open({
-                    message: 'Заявка отклонена',
-                    snacktype: SnackType.Success,
-                  });
-                }} children="Отклонить"/>
-              </PopupMenu>
-            )
-          }
-        </>)
-      },
-    ],[]);
-  
   if (!claim) return null;
-  
-  
+
+  console.log(claim);
+  const options = {
+    executor_of_claims_name: {
+      title: 'Исполнитель заявки',
+      type: 'string',
+    },
+    executor_of_claims_email: {
+      title: 'Эл. почта исполнителя',
+      type: 'string',
+    },
+  };
+
   const mySchema = {
     type: 'object',
     readOnly: true,
     properties: {
       ticket_types: {
+        type: 'string',
+        title: 'Тип заявки',
+      },
+      priority_of_claims: {
         type: 'string',
         title: 'Тип заявки',
       },
@@ -173,10 +57,29 @@ function TicketPage(props: MOBXDefaultProps) {
         type: 'string',
         title: 'Место оказания услуги'
       },
+      comment: {
+        title: 'Комментарий при отклонении',
+        type: 'string',
+        format: 'textarea'
+      },
+      author_of_claims_name: {
+        title: 'Инициатор заявки',
+        type: 'string',
+      },
+      author_of_claims_email: {
+        title: 'Эл. почта инициатора',
+        type: 'string',
+      },
     }
   };
-  
-  
+
+  if (role !== Roles.USER) {
+    mySchema.properties = {
+      ...mySchema.properties,
+      ...options
+    };
+  }
+
   return (
     <div>
       <Form
@@ -184,14 +87,18 @@ function TicketPage(props: MOBXDefaultProps) {
         defaultValues={{
           ticket_types: claim?.claim_type.caption_claim,
           text: claim?.text,
-          place_of_service: claim?.place_of_service || ''
+          priority_of_claims: claim.priority_of_claims.caption_priority,
+          comment: claim.comment,
+          author_of_claims_name: `${claim?.author_of_claims?.name} ${claim?.author_of_claims?.surname || ''} ${claim?.author_of_claims?.patronymic || ''}`,
+          author_of_claims_email: claim.author_of_claims.email,
+          executor_of_claims_name: `${claim?.executor_of_claims?.name} ${claim?.executor_of_claims?.surname || ''} ${claim?.executor_of_claims?.patronymic || ''}`,
+          executor_of_claims_email: claim?.executor_of_claims?.email,
+          place_of_service: claim?.place_of_service,
         }}
       >
         <div />
       </Form>
-      <TableAs columns={columns} data={ticketList}/>
-      <OrdersDialog dialogType={dialogType} setDialogType={setDialogType} order={dialogOrder}/>
-
+      {role !== Roles.USER && <TicketHistoryTable id={id} />}
     </div>
   );
 }

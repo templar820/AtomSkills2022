@@ -23,20 +23,20 @@ passport.deserializeUser((user, done) => {
 
 passport.use(
   new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'login',
   }, (async (
-    email,
+    login,
     password,
     done
   ) => {
     // Проверяем пользователя на наличие
-    const user = await UserService.loginUser({ email, password });
+    const user = await UserService.loginUser({ login, password });
     if (user) {
       const {
-        email, id, password, role
+        login, id, password, role
       } = user;
       return done(null, {
-        email, id, password, role
+        login, id, password, role
       });
     }
     return done(null, false);

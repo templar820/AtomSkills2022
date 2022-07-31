@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   ListItem, ListItemIcon, ListItemText, SvgIcon,
@@ -15,7 +15,7 @@ import { MOBXDefaultProps } from '@globalTypes';
 import MobXRouterDecorator from '@components/HOC/MobXRouterDecorator';
 import { SvgIcons, Tooltip } from 'ui-kit';
 import logo from '@images/logo3.png';
-import menuContents from "@components/system/Menu/menuContents";
+import menuContents from '@components/system/Menu/menuContents';
 
 // const drawerWidth = 190;
 
@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
   },
   MuiTreeItemRoot: {
     border: 'none',
-    borderLeft: `4px solid transparent`,
+    borderLeft: '4px solid transparent',
     minHeight: '40px',
 
     backgroundColor: `${Colors.menuBackgroundColor} !important`,
@@ -193,6 +193,8 @@ function Menu(props: MOBXDefaultProps) {
           onClick={() => {
             if (item.children) {
               if (!open) appStore.changeMenu();
+            } else if (item.id === 'email') {
+              window.open(item.path, '_blank');
             } else {
               props.history.push(item.path);
             }

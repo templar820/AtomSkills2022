@@ -15,6 +15,15 @@ export default class TicketStore {
   @observable
   stateList = [];
 
+  @observable
+  usersClaimType = [];
+
+  @observable
+  users = [];
+
+  @observable
+  executors = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -48,6 +57,21 @@ export default class TicketStore {
   @action
   setClaimTypesList(list: IClaimsType[]) {
     this.claimTypesList = list;
+  }
+
+  @action
+  setUsersClaimType(list) {
+    this.usersClaimType = list;
+  }
+
+  @action
+  setUsers(list) {
+    this.users = list;
+  }
+
+  @action
+  setExecutors(list) {
+    this.executors = list;
   }
 
   filterNames = [

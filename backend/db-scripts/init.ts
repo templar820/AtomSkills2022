@@ -7,7 +7,17 @@ import claimsType from './data/typeClaims.json';
 import states from './data/states.json';
 import history from './data/historyExecutors.json';
 import db from '../src/db';
-import { Sla, UserRole, User, Priority, State, Claims, ClaimsType, History } from '../src/models/DbModel';
+import {
+  Sla,
+  UserRole,
+  User,
+  Priority,
+  State,
+  Claims,
+  ClaimsType,
+  History,
+  UsersClaimsType
+} from '../src/models/DbModel';
 
 const LIMIT = 1000;
 
@@ -42,16 +52,34 @@ const main = async () => {
       await bulk(Claims, claims, t);
       await bulk(History, history, t);
 
+      try {
+        let userClaimsType = [];
+        let i = 1;
+        user.forEach(e => {
+          if (e.id_role_user !== 2) return
+          claimsType.forEach(r => {
+            userClaimsType.push({userId: e.id, claimTypeId: r.id})
+          })
+        })
+        await bulk(UsersClaimsType, userClaimsType, t);
+      } catch (e) {
+
+      }
+
+
+
       await t.commit();
 
       await db.query("SELECT setval('slas_id_seq', (SELECT MAX(id) FROM slas))");
       await db.query("SELECT setval('claims_id_seq', (SELECT MAX(id) FROM claims))");
+      await db.query("SELECT setval('states_id_seq', (SELECT MAX(id) FROM states))");
       await db.query("SELECT setval('claims_types_id_seq', (SELECT MAX(id) FROM claims_types))");
       await db.query("SELECT setval('user_roles_id_seq', (SELECT MAX(id) FROM user_roles))");
       await db.query("SELECT setval('histories_id_seq', (SELECT MAX(id) FROM histories))");
       await db.query("SELECT setval('users_id_seq', (SELECT MAX(id) FROM users))");
       await db.query("SELECT setval('priorities_id_seq', (SELECT MAX(id) FROM priorities))");
       await db.query("SELECT setval('users_id_seq', (SELECT MAX(id) FROM users))");
+      await db.query("SELECT setval('users_claim_types_id_seq', (SELECT MAX(id) FROM users_claim_types))");
 
       console.log('==> INIT DONE!');
       resolve(true);
